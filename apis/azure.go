@@ -20,6 +20,7 @@ package apis
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
+	appconfigurationv1alpha1 "github.com/crossplane/provider-azure/apis/appconfiguration/v1alpha1"
 	cachev1beta1 "github.com/crossplane/provider-azure/apis/cache/v1beta1"
 	computev1alpha3 "github.com/crossplane/provider-azure/apis/compute/v1alpha3"
 	databasev1alpha3 "github.com/crossplane/provider-azure/apis/database/v1alpha3"
@@ -41,6 +42,7 @@ func init() {
 		databasev1beta1.SchemeBuilder.AddToScheme,
 		networkv1alpha3.SchemeBuilder.AddToScheme,
 		storagev1alpha3.SchemeBuilder.AddToScheme,
+		appconfigurationv1alpha1.SchemeBuilder.AddToScheme,
 	)
 }
 
