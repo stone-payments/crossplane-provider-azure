@@ -24,6 +24,7 @@ import (
 
 	"github.com/crossplane/crossplane-runtime/pkg/logging"
 
+	"github.com/crossplane/provider-azure/pkg/controller/appconfiguration"
 	"github.com/crossplane/provider-azure/pkg/controller/cache"
 	"github.com/crossplane/provider-azure/pkg/controller/compute"
 	"github.com/crossplane/provider-azure/pkg/controller/config"
@@ -62,6 +63,7 @@ func Setup(mgr ctrl.Manager, l logging.Logger, rl workqueue.RateLimiter, poll ti
 		account.Setup,
 		container.Setup,
 		secret.SetupSecret,
+		appconfiguration.SetupAppConfiguration,
 	} {
 		if err := setup(mgr, l, rl, poll); err != nil {
 			return err
