@@ -1,0 +1,12 @@
+apiVersion: appconfiguration.azure.crossplane.io/v1alpha1
+kind: KeyValue
+metadata:
+  name: sample
+spec:
+  forProvider:
+    key: crossplane
+    label: crossplane-label
+    value: value
+    endpoint: "https://crossplane.azconfig.io"
+  providerConfigRef:
+    name: example
