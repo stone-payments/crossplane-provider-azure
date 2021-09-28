@@ -75,7 +75,7 @@ spec:
                     description: Tags of the KeyValue resource.
                     type: object
                   value:
-                    description: Value of the KeyValue
+                    description: Value of the KeyValue.
                     type: string
                 required:
                 - endpoint
@@ -126,10 +126,10 @@ spec:
                 description: KeyValueObservation represents the observed state of the Secret object in Azure.
                 properties:
                   etag:
-                    description: ETag of the KeyValue.
+                    description: Etag of the KeyValue.
                     type: string
                   lastModified:
-                    description: Time that the KeyValue was last modified.
+                    description: Date that the KeyValue was last modified.
                     type: string
                 type: object
               conditions:

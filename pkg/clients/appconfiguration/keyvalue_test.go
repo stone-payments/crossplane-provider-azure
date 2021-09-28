@@ -56,7 +56,7 @@ func params(isLateInitialize bool) *v1alpha1.KeyValueParameters {
 		Value:  value,
 		Label:  label,
 		Locked: locked,
-		Tags:   &tags,
+		Tags:   tags,
 	}
 	if isLateInitialize {
 		params.Key = ""
@@ -114,7 +114,7 @@ func TestLateInitialize(t *testing.T) {
 		"Must use template fields in initialization": {
 			args: args{
 				spec: &v1alpha1.KeyValueParameters{
-					Tags:        &tags,
+					Tags:        tags,
 					ContentType: contentType,
 					Locked:      locked,
 				},
@@ -125,7 +125,7 @@ func TestLateInitialize(t *testing.T) {
 				},
 			},
 			want: &v1alpha1.KeyValueParameters{
-				Tags:        &tags,
+				Tags:        tags,
 				ContentType: contentType,
 				Locked:      locked,
 			},
@@ -141,7 +141,7 @@ func TestLateInitialize(t *testing.T) {
 			},
 			want: &v1alpha1.KeyValueParameters{
 				ContentType: contentType,
-				Tags:        &tags,
+				Tags:        tags,
 				Locked:      locked,
 			},
 		},
@@ -226,7 +226,7 @@ func TestOverrideParameters(t *testing.T) {
 					Value:       value,
 					Key:         key,
 					Label:       label,
-					Tags:        &tags,
+					Tags:        tags,
 					Locked:      locked,
 				},
 				desired: keyvalues.KeyValue{},

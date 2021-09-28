@@ -33,20 +33,19 @@ const (
 // LateInitialize fills the cr values that user did not fill with their
 // corresponding value in the Azure, if there is any.
 func LateInitialize(cr *v1alpha1.KeyValueParameters, p keyvalues.KeyValue) {
-
 	cr.ContentType = azure.LateInitializeStringPtrFromPtr(cr.ContentType, p.ContentType)
 	cr.Locked = azure.LateInitializeBoolPtrFromPtr(cr.Locked, p.Locked)
-	cr.Tags = lateInitializeStringMap(*cr.Tags, *p.Tags)
+	cr.Tags = lateInitializeStringMap(cr.Tags, *p.Tags)
 }
 
-func lateInitializeStringMap(in map[string]string, from map[string]string) *map[string]string {
+func lateInitializeStringMap(in map[string]string, from map[string]string) map[string]string {
 	if in != nil {
-		return &in
+		return in
 	}
 	if from == nil {
 		return nil
 	}
-	return &from
+	return from
 }
 
 // IsUpToDate checks whether KeyValue spec is up to date with remote resource.
@@ -75,10 +74,7 @@ func overrideParameters(params v1alpha1.KeyValueParameters, desired keyvalues.Ke
 	}
 
 	if params.Tags != nil {
-		desired.Tags = &map[string]string{}
-		for key, value := range *params.Tags {
-			(*desired.Tags)[key] = value
-		}
+		desired.Tags = &params.Tags
 	}
 
 	if params.Locked != nil {
@@ -90,7 +86,6 @@ func overrideParameters(params v1alpha1.KeyValueParameters, desired keyvalues.Ke
 
 // GenerateObservation fills the *v1alpha1.KeyValueObservation with keyvalues.KeyValue if the field is empty.
 func GenerateObservation(cr *v1alpha1.KeyValueObservation, kv keyvalues.KeyValue) {
-
 	if cr.Etag == "" && kv.Etag != nil {
 		cr.Etag = *kv.Etag
 	}

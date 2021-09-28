@@ -40,10 +40,8 @@ var (
 	value            = "the-secret-value"
 	unexpectedObject resource.Managed
 	locked           = azure.ToBoolPtr(true)
-	// etag             = "d00c90f7-971e-4a72-8bf9-de4c6ff95670"
-	// lastModified     = "03/21/3012"
-	label = "the-label"
-	key   = "the-key"
+	label            = "the-label"
+	key              = "the-key"
 )
 
 var (
@@ -67,7 +65,7 @@ func instance(rm ...keyvaluesResourceModifier) *v1alpha1.KeyValue {
 				Value:  value,
 				Label:  label,
 				Key:    key,
-				Tags:   &tags,
+				Tags:   tags,
 				Locked: locked,
 			},
 		},
