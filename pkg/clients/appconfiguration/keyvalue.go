@@ -23,26 +23,30 @@ import (
 	"github.com/stone-payments/appconfig-go-sdk/appconfig/keyvalues"
 
 	"github.com/crossplane/provider-azure/apis/appconfiguration/v1alpha1"
+	azure "github.com/crossplane/provider-azure/pkg/clients"
 )
 
 const (
-	errCheckUpToDate = "unable to determine if external resource is up to date"
+	errCheckUpToDate = "cannot determine if infrastructure key value  is up-to-date"
 )
 
 // LateInitialize fills the cr values that user did not fill with their
 // corresponding value in the Azure, if there is any.
 func LateInitialize(cr *v1alpha1.KeyValueParameters, p keyvalues.KeyValue) {
-	if cr.ContentType == nil && p.ContentType != nil {
-		cr.ContentType = p.ContentType
-	}
 
-	if cr.Locked == nil && p.Locked != nil {
-		cr.Locked = p.Locked
-	}
+	cr.ContentType = azure.LateInitializeStringPtrFromPtr(cr.ContentType, p.ContentType)
+	cr.Locked = azure.LateInitializeBoolPtrFromPtr(cr.Locked, p.Locked)
+	cr.Tags = lateInitializeStringMap(*cr.Tags, *p.Tags)
+}
 
-	if cr.Tags == nil && p.Tags != nil {
-		cr.Tags = p.Tags
+func lateInitializeStringMap(in map[string]string, from map[string]string) *map[string]string {
+	if in != nil {
+		return &in
 	}
+	if from == nil {
+		return nil
+	}
+	return &from
 }
 
 // IsUpToDate checks whether KeyValue spec is up to date with remote resource.
@@ -84,7 +88,7 @@ func overrideParameters(params v1alpha1.KeyValueParameters, desired keyvalues.Ke
 	return desired
 }
 
-// GenerateObservation used to Status
+// GenerateObservation fills the *v1alpha1.KeyValueObservation with keyvalues.KeyValue if the field is empty.
 func GenerateObservation(cr *v1alpha1.KeyValueObservation, kv keyvalues.KeyValue) {
 
 	if cr.Etag == "" && kv.Etag != nil {
