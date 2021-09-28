@@ -38,7 +38,6 @@ import (
 )
 
 const (
-	errCheckUpToDate         = "unable to determine if external resource is up to date"
 	errConnectFailed         = "cannot connect to Azure API"
 	errGetFailed             = "cannot get KeyValue"
 	errCreateFailed          = "cannot create KeyValue"
@@ -124,9 +123,6 @@ func (c *external) Observe(ctx context.Context, mg resource.Managed) (managed.Ex
 	currentSpec := cr.Spec.ForProvider.DeepCopy()
 	appclient.LateInitialize(&cr.Spec.ForProvider, kv)
 	if !cmp.Equal(currentSpec, &cr.Spec.ForProvider) {
-		if err := c.kube.Update(ctx, cr); err != nil {
-			return managed.ExternalObservation{}, errors.Wrap(err, errKubeUpdateFailed)
-		}
 		lateInit = true
 	}
 
@@ -135,7 +131,7 @@ func (c *external) Observe(ctx context.Context, mg resource.Managed) (managed.Ex
 
 	upToDate, err := appclient.IsUpToDate(cr.Spec.ForProvider, &kv)
 	if err != nil {
-		return managed.ExternalObservation{}, errors.Wrap(err, errCheckUpToDate)
+		return managed.ExternalObservation{}, err
 	}
 
 	return managed.ExternalObservation{
@@ -151,7 +147,6 @@ func (c *external) Create(ctx context.Context, mg resource.Managed) (managed.Ext
 		return managed.ExternalCreation{}, errors.New(errNotKeyValue)
 	}
 
-	cr.Status.SetConditions(xpv1.Creating())
 	return managed.ExternalCreation{}, errors.Wrap(c.SetKeyValue(cr.Spec.ForProvider), errCreateFailed)
 }
 

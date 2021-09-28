@@ -128,7 +128,7 @@ spec:
                   etag:
                     description: ETag of the KeyValue.
                     type: string
-                  last_modified:
+                  lastModified:
                     description: Time that the KeyValue was last modified.
                     type: string
                 type: object
