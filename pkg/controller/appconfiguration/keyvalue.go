@@ -42,7 +42,6 @@ const (
 	errGetFailed             = "cannot get KeyValue"
 	errCreateFailed          = "cannot create KeyValue"
 	errUpdateFailed          = "cannot update KeyValue"
-	errKubeUpdateFailed      = "cannot update custom resource in kubernetes"
 	errDeleteFailed          = "cannot delete KeyValue"
 	errCannotCreateNewClient = "cannot create NewClient"
 	errNotKeyValue           = "unexpected resource, it must be KeyValue"
@@ -164,12 +163,7 @@ func (c *external) Delete(ctx context.Context, mg resource.Managed) error {
 		return errors.New(errNotKeyValue)
 	}
 
-	err := c.client.DeleteKeyValue(cr.Spec.ForProvider.Key, cr.Spec.ForProvider.Label)
-	if err != nil {
-		return errors.Wrap(err, errDeleteFailed)
-	}
-
-	return nil
+	return errors.Wrap(c.client.DeleteKeyValue(cr.Spec.ForProvider.Key, cr.Spec.ForProvider.Label), errDeleteFailed)
 }
 
 func (c *external) SetKeyValue(params v1alpha1.KeyValueParameters) error {
