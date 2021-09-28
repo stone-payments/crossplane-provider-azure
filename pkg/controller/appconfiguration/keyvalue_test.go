@@ -188,32 +188,6 @@ func TestObserve(t *testing.T) {
 				err: nil,
 			},
 		},
-		"KubeUpdateFailed": {
-			args: args{
-				cr: instance(),
-				kube: &test.MockClient{
-					MockUpdate: test.NewMockUpdateFn(errorBoom),
-				},
-				kv: &fake.MockClient{
-					MockGetKeyValue: func(key string, label string) (keyvalues.KeyValue, error) {
-						return keyvalues.KeyValue{
-							Value:       &value,
-							Label:       &label,
-							Key:         &key,
-							Tags:        &tags,
-							Locked:      locked,
-							ContentType: contentType,
-						}, nil
-					},
-				},
-			},
-			want: want{
-				cr: instance(
-					withContentType(contentType),
-				),
-				err: errors.Wrap(errorBoom, errKubeUpdateFailed),
-			},
-		},
 	}
 
 	for name, tc := range cases {
@@ -274,7 +248,6 @@ func TestCreate(t *testing.T) {
 			want: want{
 				o: managed.ExternalCreation{},
 				cr: instance(
-					withConditions(xpv1.Creating()),
 					withContentType(contentType),
 				),
 			},
@@ -289,9 +262,7 @@ func TestCreate(t *testing.T) {
 				},
 			},
 			want: want{
-				cr: instance(
-					withConditions(xpv1.Creating()),
-				),
+				cr:  instance(),
 				o:   managed.ExternalCreation{},
 				err: errors.Wrap(errorBoom, errCreateFailed),
 			},
