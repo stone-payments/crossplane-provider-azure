@@ -179,7 +179,7 @@ func (c *external) SetKeyValue(params v1alpha1.KeyValueParameters) error {
 		Label: params.Label,
 	}
 	if params.Tags != nil {
-		instance.Tags = *params.Tags
+		instance.Tags = params.Tags
 	}
 	if params.ContentType != nil {
 		instance.ContentType = *params.ContentType

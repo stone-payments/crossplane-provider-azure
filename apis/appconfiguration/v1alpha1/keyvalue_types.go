@@ -35,7 +35,7 @@ type KeyValueParameters struct {
 	// +immutable
 	Label string `json:"label"`
 
-	// Value of the KeyValue
+	// Value of the KeyValue.
 	Value string `json:"value"`
 
 	// Content-Type of the KeyValue.
@@ -48,7 +48,7 @@ type KeyValueParameters struct {
 
 	// Tags of the KeyValue resource.
 	// +optional
-	Tags *map[string]string `json:"tags,omitempty"`
+	Tags map[string]string `json:"tags,omitempty"`
 }
 
 // A KeyValueSpec defines the desired state of a KeyValue.
@@ -59,10 +59,10 @@ type KeyValueSpec struct {
 
 // KeyValueObservation represents the observed state of the Secret object in Azure.
 type KeyValueObservation struct {
-	// Time that the KeyValue was last modified.
+	// Date that the KeyValue was last modified.
 	LastModified string `json:"lastModified,omitempty"`
 
-	// ETag of the KeyValue.
+	// Etag of the KeyValue.
 	Etag string `json:"etag,omitempty"`
 }
 
