@@ -60,7 +60,7 @@ type KeyValueSpec struct {
 // KeyValueObservation represents the observed state of the Secret object in Azure.
 type KeyValueObservation struct {
 	// Time that the KeyValue was last modified.
-	LastModified string `json:"last_modified,omitempty"`
+	LastModified string `json:"lastModified,omitempty"`
 
 	// ETag of the KeyValue.
 	Etag string `json:"etag,omitempty"`
